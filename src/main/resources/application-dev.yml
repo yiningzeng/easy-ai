@@ -1,0 +1,79 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  port: 8088
+#  ssl:
+#    key-store: vip.p12 #执行的时候一定要把.p12证书放在同一个目录
+#    key-store-type: PKCS12
+#    key-store-password: baymin1024
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://192.168.0.109:8000/eureka/
+linux:
+  root-password: icubic-123
+ftp:
+  ip: 111.231.134.58
+  port: 21
+  path: /root/ftp/qtvision/ #一定要以/结尾
+spring:
+  boot:
+    admin:
+      client:
+        instance:
+          service-base-url: "http://localhost:8080"
+  application:
+    name: restroom
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    druid:
+      url: jdbc:mysql://localhost:3306/restroom?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+      username: baymin
+      password: baymin1024!@#$%
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  security:
+    user:
+      name: baymin
+      password: baymin1024
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+
