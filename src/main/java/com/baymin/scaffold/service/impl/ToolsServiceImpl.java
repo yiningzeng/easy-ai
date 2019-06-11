@@ -84,21 +84,22 @@ public class ToolsServiceImpl implements ToolsService {
             String path = newFile.getPath();
             String fileName = newFile.getName();
 
+            String tarFileName =  username + "-" + fileName + ".tar.gz";
             StreamGobblerCallback.Work work = new StreamGobblerCallback.Work();
-            String cmd = "echo " + rootPassword + " | sudo -S cd " + basePath + " && tar -czvf " + username + "-" + fileName + ".tar.gz " + path.replace(basePath, "");
+            String cmd = "cd " + basePath +" && echo " + rootPassword + " | sudo -S tar -czvf " + tarFileName+ " " + path.replace(basePath, "");
             log.info("=======cmd: {}", cmd);
             ShellKit.runShell(cmd, work);
             while (work.isDoing()) {
                 Thread.sleep(100);
             }
 
-            cmd = "echo " + rootPassword + " | sudo -S mv " + fileName + ".tar.gz /opt/lampp/htdocs";
+            cmd = "cd " + basePath +" && echo " + rootPassword + " | sudo -S mv " + tarFileName + " /opt/lampp/htdocs";
             log.info("=======cmd: {}", cmd);
             ShellKit.runShell(cmd, work);
             while (work.isDoing()){
                 Thread.sleep(100);
             }
-            return R.success("http://" + ip + "/" + fileName + ".tar.gz");
+            return R.success("http://" + ip + "/" + tarFileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
