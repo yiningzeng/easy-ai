@@ -4,12 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.baymin</groupId>
     <artifactId>scaffold</artifactId>
-    <version>v1.0.1-RELEASE</version>
+    <version>v1.0.2-RELEASE</version>
     <packaging>jar</packaging>
     <name>easy-ai</name>
     <description>
         $更新说明
-        $1.0.0
+        $1.0.2
+        $新增资源打包下载功能
         $easy-ai
     </description>
 

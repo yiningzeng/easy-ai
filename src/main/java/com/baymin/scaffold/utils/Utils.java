@@ -30,38 +30,45 @@ import java.util.regex.PatternSyntaxException;
 public class Utils {
 
     public static void main(String[] args) {
-        String aa="MR7102L01RAJ";
-        System.out.println(aa.substring(3,5));
+//        String aa="MR7102L01RAJ";
+//        System.out.println(aa.substring(3,5));
+//
+//        FtpServerFactory serverFactory = new FtpServerFactory();
+//
+//        ListenerFactory factory = new ListenerFactory();
+//        //设置监听端口
+//        factory.setPort(2121);
+//
+//        //替换默认监听
+//        serverFactory.addListener("default", factory.createListener());
+//
+//        //用户名
+//        BaseUser user = new BaseUser();
+//        user.setName("admin");
+//        //密码 如果不设置密码就是匿名用户
+//        user.setPassword("123456");
+//        //用户主目录
+//        user.setHomeDirectory("/home/baymin/ftp/");
+//
+//        List<Authority> authorities = new ArrayList<Authority>();
+//        //增加写权限
+//        authorities.add(new WritePermission());
+//        user.setAuthorities(authorities);
+//
+//        //增加该用户
+//        try {
+//            serverFactory.getUserManager().save(user);
+//            FtpServer server = serverFactory.createServer();
+//            server.start();
+//        } catch (FtpException e) {
+//            e.printStackTrace();
+//        }
 
-        FtpServerFactory serverFactory = new FtpServerFactory();
-
-        ListenerFactory factory = new ListenerFactory();
-        //设置监听端口
-        factory.setPort(2121);
-
-        //替换默认监听
-        serverFactory.addListener("default", factory.createListener());
-
-        //用户名
-        BaseUser user = new BaseUser();
-        user.setName("admin");
-        //密码 如果不设置密码就是匿名用户
-        user.setPassword("123456");
-        //用户主目录
-        user.setHomeDirectory("/home/baymin/ftp/");
-
-        List<Authority> authorities = new ArrayList<Authority>();
-        //增加写权限
-        authorities.add(new WritePermission());
-        user.setAuthorities(authorities);
-
-        //增加该用户
-        try {
-            serverFactory.getUserManager().save(user);
-            FtpServer server = serverFactory.createServer();
-            server.start();
-        } catch (FtpException e) {
-            e.printStackTrace();
+        String path = "/home/baymin/data/素材/素材1";
+        List<File> list = getFileSort(path);
+        for (File file : list) {
+            System.out.println(file.getName());
+//            System.out.println(file.getName() + " : " + file.lastModified());
         }
 
         /**
@@ -70,9 +77,51 @@ public class Utils {
 //	    PropertiesUserManagerFactory userManagerFactory = new PropertiesUserManagerFactory();
 //	    userManagerFactory.setFile(new File("users.properties"));
 //	    serverFactory.setUserManager(userManagerFactory.createUserManager());
-
-
     }
+
+
+    /**
+     * 获取目录下所有文件(按时间排序)
+     * @param path
+     * @return
+     */
+    public static List<File> getFileSort(String path) {
+        List<File> list = getFiles(path, new ArrayList<File>());
+        if (list != null && list.size() > 0) {
+            Collections.sort(list, new Comparator<File>() {
+                public int compare(File file, File newFile) {
+                    if (file.lastModified() < newFile.lastModified()) {
+                        return 1;
+                    } else if (file.lastModified() == newFile.lastModified()) {
+                        return 0;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
+        }
+        return list;
+    }
+
+    /**
+     * 获取目录下所有文件
+     * @param realpath
+     * @param files
+     * @return
+     */
+    public static List<File> getFiles(String realpath, List<File> files) {
+        File realFile = new File(realpath);
+        if (realFile.isDirectory()) {
+            File[] subfiles = realFile.listFiles();
+            for (File file : subfiles) {
+                if (file.isDirectory()) {
+                    files.add(file);
+                }
+            }
+        }
+        return files;
+    }
+
 
     public static byte[] toByteArray (Object obj) {
         byte[] bytes = null;

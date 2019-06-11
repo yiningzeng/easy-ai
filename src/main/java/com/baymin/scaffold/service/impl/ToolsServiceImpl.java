@@ -73,4 +73,38 @@ public class ToolsServiceImpl implements ToolsService {
             return R.error(ResultEnum.FAIL_ACTION_MESSAGE);
         }
     }
+
+
+    @Override
+    public Object download(String username) throws MyException {
+        try {
+            List<File> list = Utils.getFileSort(basePath + username);
+            File newFile = new File(basePath + username);
+            if (list.size() > 0) newFile = list.get(0);
+            String path = newFile.getPath();
+            String fileName = newFile.getName();
+
+            StreamGobblerCallback.Work work = new StreamGobblerCallback.Work();
+            String cmd = "echo " + rootPassword + " | sudo -S tar -czvf " + fileName + ".tar.gz " + path;
+            log.info("=======cmd: {}", cmd);
+            ShellKit.runShell(cmd, work);
+            while (work.isDoing()){
+                Thread.sleep(100);
+            }
+
+            cmd = "echo " + rootPassword + " | sudo -S mv " + fileName + ".tar.gz /opt/lampp/htdocs";
+            log.info("=======cmd: {}", cmd);
+            ShellKit.runShell(cmd, work);
+            while (work.isDoing()){
+                Thread.sleep(100);
+            }
+            return R.success("http://" + ip + "/" + fileName + ".tar.gz");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        for (File file : list) {
+//            System.out.println(file.getName() + " : " + file.lastModified());
+//        }
+        return 0;
+    }
 }

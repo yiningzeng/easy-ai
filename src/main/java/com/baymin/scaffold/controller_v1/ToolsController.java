@@ -37,4 +37,13 @@ public class ToolsController {
     public Object setFtp(@PathVariable("user") String user) throws Exception {
         return toolsService.setFtp(user);
     }
+
+    @ApiOperation(value = "打包下载最新日期数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user", required = true, dataType = "string",paramType = "path"),
+    })
+    @GetMapping(value = "/download/{user}")
+    public Object download(@PathVariable("user") String user) throws Exception {
+        return toolsService.download(user);
+    }
 }

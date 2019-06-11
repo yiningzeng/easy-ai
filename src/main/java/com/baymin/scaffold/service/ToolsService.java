@@ -21,4 +21,6 @@ public interface ToolsService {
      */
     Object setFtp(String username)throws MyException;
 
+    Object download(String username)throws MyException;
+
 }

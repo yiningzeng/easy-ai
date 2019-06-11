@@ -82,6 +82,7 @@ public class TokenAuthorFilter implements Filter {
         if(uri.contains("/login.html")||
                 uri.contains("/api/app/v1/login")||
                 uri.contains("ftp/")||
+                uri.contains("download/")||
                 uri.contains("/api/app/v1/password")){
             filterChain.doFilter(servletRequest, response);
             return;
