@@ -60,21 +60,21 @@ public class ScaffoldApplication implements CommandLineRunner{
 //        server.start(address);
     }
 
-    @PostMapping(value = "/api/xml", consumes = { MediaType.APPLICATION_XML_VALUE }, produces = MediaType.APPLICATION_XML_VALUE)
-    public Object post(@RequestBody XmlFlow xmlFlow) throws Exception {
-        log.info("==============end==============={}",xmlFlow.toString());
-        return R.success();
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/test/json", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public String getByJSON(@RequestBody JSONObject jsonParam) {
-        // 直接将json信息打印出来
-//        System.out.println(jsonParam.toJSONString());
-        log.info(jsonParam.toJSONString());
-        log.info("==============end===============");
-        return "res";
-    }
+//    @PostMapping(value = "/api/xml", consumes = { MediaType.APPLICATION_XML_VALUE }, produces = MediaType.APPLICATION_XML_VALUE)
+//    public Object post(@RequestBody XmlFlow xmlFlow) throws Exception {
+//        log.info("==============end==============={}",xmlFlow.toString());
+//        return R.success();
+//    }
+//
+//    @ResponseBody
+//    @RequestMapping(value = "/test/json", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//    public String getByJSON(@RequestBody JSONObject jsonParam) {
+//        // 直接将json信息打印出来
+////        System.out.println(jsonParam.toJSONString());
+//        log.info(jsonParam.toJSONString());
+//        log.info("==============end===============");
+//        return "res";
+//    }
 
 
     /**

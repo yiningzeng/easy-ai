@@ -54,6 +54,8 @@ public class ToolsServiceImpl implements ToolsService {
             while (work.isDoing()){
                 Thread.sleep(100);
             }
+            cmd = "echo "+ rootPassword +" | sudo -S chmod -R 777 "+ basePath + ftpPath;
+            ShellKit.runShell(cmd, work);
             log.info("用户目录创建成功"+work.getRes());
             return R.success(new RetFtpConfig(ip, port, "ftp://" + ip + ":" + port + "/" + ftpPath));
         } catch (Exception e) {
