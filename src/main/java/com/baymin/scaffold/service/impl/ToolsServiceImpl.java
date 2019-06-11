@@ -85,10 +85,10 @@ public class ToolsServiceImpl implements ToolsService {
             String fileName = newFile.getName();
 
             StreamGobblerCallback.Work work = new StreamGobblerCallback.Work();
-            String cmd = "echo " + rootPassword + " | sudo -S tar -czvf " + fileName + ".tar.gz " + path;
+            String cmd = "echo " + rootPassword + " | sudo -S cd " + basePath + " && tar -czvf " + username + "-" + fileName + ".tar.gz " + path.replace(basePath, "");
             log.info("=======cmd: {}", cmd);
             ShellKit.runShell(cmd, work);
-            while (work.isDoing()){
+            while (work.isDoing()) {
                 Thread.sleep(100);
             }
 
