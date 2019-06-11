@@ -1,6 +1,9 @@
 package com.baymin.scaffold.dao;
 
 import com.baymin.scaffold.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -38,4 +41,6 @@ public interface UserDao extends JpaRepository<User, Integer>,JpaSpecificationEx
     @Query(name = "查询用户加密盐",value = "select salt from user u where u.username=?1", nativeQuery = true)
     Optional<String> findSaltByUsernameOp(String username);
 
+
+    Page<User> findAllByUserStatus(Integer userStatus, Pageable pageable);
 }

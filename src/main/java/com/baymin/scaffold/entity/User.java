@@ -46,7 +46,9 @@ public class User implements Serializable {
     @ApiModelProperty(value = "所属岗位", example = "技术部")
     private String department;
     @ApiModelProperty(value = "用户类型{0：禁用|1：启用}", example = "1")
-    private Integer userStatus;
+    private Integer userStatus = 0;
+    @ApiModelProperty(value = "ftp url")
+    private String ftpUrl;
     //@Temporal(TemporalType.TIMESTAMP)
     @ApiModelProperty(value = "创建时间")
     private Date createTime = new Date();

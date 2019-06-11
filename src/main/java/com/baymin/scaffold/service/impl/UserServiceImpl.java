@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object findAll(Integer userType,User userConditions, Pageable pageable) throws MyException {
-        Page<User> retPage= userDao.findAll(userSpecs.userList(userConditions),pageable);//userDao.findAll(example,pageable);
+        Page<User> retPage= userDao.findAllByUserStatus(userType, pageable);//userDao.findAll(example,pageable);
         if(retPage.getSize()>0)return R.success(retPage);else return R.error(ResultEnum.NO_LIST,retPage);
     }
 

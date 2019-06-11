@@ -3,6 +3,7 @@ package com.baymin.scaffold.service.impl;
 import com.baymin.scaffold.dao.LevelDao;
 import com.baymin.scaffold.dao.UserDao;
 import com.baymin.scaffold.dao.specs.UserSpecs;
+import com.baymin.scaffold.entity.User;
 import com.baymin.scaffold.ret.R;
 import com.baymin.scaffold.ret.enums.ResultEnum;
 import com.baymin.scaffold.ret.exception.MyException;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -40,6 +42,9 @@ public class ToolsServiceImpl implements ToolsService {
     private String basePath;
     @Value("${linux.root-password}")
     private String rootPassword;
+
+    @Autowired
+    private UserDao userDao;
 
 
     @Override
@@ -57,7 +62,12 @@ public class ToolsServiceImpl implements ToolsService {
             cmd = "echo "+ rootPassword +" | sudo -S chmod -R 777 "+ basePath + ftpPath;
             ShellKit.runShell(cmd, work);
             log.info("用户目录创建成功"+work.getRes());
-            return R.success(new RetFtpConfig(ip, port, "ftp://" + ip + ":" + port + "/" + ftpPath));
+            String ftpUrl = "ftp://" + ip + ":" + port + "/" + ftpPath;
+            User user = userDao.findFirstByUsername(username).orElse(new User());
+            user.setUsername(username);
+            user.setFtpUrl(ftpUrl);
+            userDao.save(user);
+            return R.success(new RetFtpConfig(ip, port, ftpUrl));
         } catch (Exception e) {
             e.printStackTrace();
             return R.error(ResultEnum.FAIL_ACTION_MESSAGE);
